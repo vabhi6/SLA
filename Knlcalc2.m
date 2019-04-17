@@ -1,4 +1,4 @@
-function[Knlglobal,Anlglobal]=Knlcalc2(t,Y0,par,gvec,node_coords,...
+function[Knlglobal]=Knlcalc2(t,Y0,par,gvec,node_coords,...
     el_node_map,Kglobal,Mglobal,bvec,bcnodes,nonbcnodes,PHIMAT4,...
     PHIXCELL,PHIYCELL,WTCELL)
 %-------------------------------------------------------------
@@ -31,7 +31,7 @@ betasc=phi*gvec(3);
 I = zeros (ntriplets, 1) ;
 J = zeros (ntriplets, 1) ;
 KnlX = zeros (ntriplets, 1);
-AnlX = zeros (ntriplets, 1);
+%AnlX = zeros (ntriplets, 1);
 
 ntriplets=0;
 for i=1:nel
@@ -49,10 +49,10 @@ for i=1:nel
       disp(i);
       end
     Knlel=zeros(nn);
-    Anlel=zeros(nn);
+ %   Anlel=zeros(nn);
         for j=1:length(WTVEC)
         Knlel=Knlel+WTVEC(j)*alpha(j)*(PHIXMAT(j,:)'*PHIXMAT(j,:) + PHIYMAT(j,:)'*PHIYMAT(j,:));
-        Anlel=Anlel+WTVEC(j)*beta(j)*(PHIXMAT(j,:)'*PHIXMAT(j,:) + PHIYMAT(j,:)'*PHIYMAT(j,:));
+  %      Anlel=Anlel+WTVEC(j)*beta(j)*(PHIXMAT(j,:)'*PHIXMAT(j,:) + PHIYMAT(j,:)'*PHIYMAT(j,:));
         end
          for krow=1:nn
             for kcol=1:nn
@@ -60,13 +60,13 @@ for i=1:nel
                 I (ntriplets) = nind (krow) ;
                 J (ntriplets) = nind (kcol) ;
                 KnlX (ntriplets) = Knlel (krow,kcol) ;
-                AnlX (ntriplets) = Anlel (krow,kcol) ;
+   %             AnlX (ntriplets) = Anlel (krow,kcol) ;
             end
          end
 end
 Knlglobal = sparse (I,J,KnlX,n,n) ;
-Anlglobal = sparse (I,J,AnlX,n,n) ;
+%Anlglobal = sparse (I,J,AnlX,n,n) ;
 Knlglobal(bcnodes,:)=[];
 Knlglobal(:,bcnodes)=[];
-Anlglobal(bcnodes,:)=[];
-Anlglobal(:,bcnodes)=[];
+%Anlglobal(bcnodes,:)=[];
+%Anlglobal(:,bcnodes)=[];
